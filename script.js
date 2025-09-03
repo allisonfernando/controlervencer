@@ -30,6 +30,7 @@ productForm.addEventListener('submit',e=>{
   const entryDate=document.getElementById('entryDate').value;
   const expiryDate=document.getElementById('expiryDate').value;
   const quantity=parseFloat(document.getElementById('quantity').value);
+  const unitType=document.getElementById('unitType').value;
   const imageInput=document.getElementById('productImage');
   const editIndex=document.getElementById('editIndex').value;
 
@@ -38,7 +39,7 @@ productForm.addEventListener('submit',e=>{
   const reader=new FileReader();
   reader.onload=function(){
     const imageData=reader.result||'';
-    const productData={name,type,entryDate,expiryDate,quantity,image:imageData};
+    const productData={name,type,entryDate,expiryDate,quantity,unitType,image:imageData};
     const tx=db.transaction('products','readwrite');
     const store=tx.objectStore('products');
     if(editIndex==='') store.add(productData);
@@ -55,6 +56,14 @@ function daysUntil(dateStr){
   return Math.ceil((d-today)/(1000*60*60*24));
 }
 
+function formatDate(dateStr){
+  const d=new Date(dateStr);
+  const day=String(d.getDate()).padStart(2,'0');
+  const month=String(d.getMonth()+1).padStart(2,'0');
+  const year=d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
 // ================= Render Products =================
 function loadProducts(){
   const tx=db.transaction('products','readonly');
@@ -69,7 +78,7 @@ function loadProducts(){
 
 function renderProducts(){
   productList.innerHTML='';
-  const sortedProducts = products.slice().sort((a,b)=> daysUntil(a.expiryDate)-daysUntil(b.expiryDate) );
+  const sortedProducts = products.slice().sort((a,b)=> daysUntil(a.expiryDate)-daysUntil(b.expiryDate));
   sortedProducts.forEach(prod=>{
     const card=document.createElement('div'); 
     card.className='product-card';
@@ -90,8 +99,8 @@ function renderProducts(){
     const img=document.createElement('img'); img.src=prod.image||'';
     const h4=document.createElement('h4'); h4.textContent=prod.name;
     const p1=document.createElement('p'); p1.textContent=`Tipo: ${prod.type}`;
-    const p2=document.createElement('p'); p2.textContent=`Qtd: ${prod.quantity}g`;
-    const p3=document.createElement('p'); p3.textContent=`Venc: ${prod.expiryDate}`;
+    const p2=document.createElement('p'); p2.textContent=`Qtd: ${prod.quantity} ${prod.unitType}`;
+    const p3=document.createElement('p'); p3.textContent=`Venc: ${formatDate(prod.expiryDate)}`;
     
     const btnDiv=document.createElement('div'); btnDiv.className='card-buttons';
     const editBtn=document.createElement('button'); editBtn.className='edit-btn'; editBtn.textContent='Editar';
@@ -146,6 +155,7 @@ function editProduct(id){
   document.getElementById('entryDate').value=prod.entryDate;
   document.getElementById('expiryDate').value=prod.expiryDate;
   document.getElementById('quantity').value=prod.quantity;
+  document.getElementById('unitType').value=prod.unitType;
   document.getElementById('editIndex').value=prod.id;
 }
 

@@ -22,15 +22,14 @@ nav { display:flex; justify-content:center; align-items:center; gap:20px; paddin
 .form-container button:hover { background:#0056b3; transform:translateY(-2px); box-shadow:0 6px 12px rgba(0,0,0,0.2); }
 
 .list-container { flex:2 1 500px; display:flex; flex-direction:column; gap:12px; }
-#alertContainer { margin-bottom:12px; display:flex; flex-direction:column; gap:6px; }
+#alertContainer { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
 
-.alert-box { padding:12px 16px; border-radius:12px; font-weight:600; font-size:14px; box-shadow:0 4px 12px rgba(0,0,0,0.15); animation: pulseGradient 2s infinite; }
-
-.alert-vencido { background:#b71c1c; color:#fff; }
-.alert-5dias { background:#e53935; color:#fff; }
-.alert-10dias { background:#ff8c00; color:#fff; }
+.alert-box { padding:12px 16px; border-radius:12px; font-weight:600; font-size:14px; box-shadow:0 4px 12px rgba(0,0,0,0.15); animation: pulseGradient 2s infinite; color:#fff; }
+.alert-vencido { background:#b71c1c; }
+.alert-5dias { background:#e53935; }
+.alert-10dias { background:#ff8c00; }
 .alert-15dias { background:#fdd835; color:#333; }
-.alert-16dias { background:#43a047; color:#fff; }
+.alert-16dias { background:#43a047; }
 
 @keyframes pulseGradient {
   0% { opacity:0.85; }
